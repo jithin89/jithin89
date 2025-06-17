@@ -1,0 +1,29 @@
+name: Install OpenTofu and Terraform
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  setup-tools:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5  # Change to the version you want
+
+      - name: Verify Terraform
+        run: terraform -version
+
+      - name: Install OpenTofu
+        run: |
+          curl -s https://get.opentofu.org/install.sh | bash
+          echo "$HOME/.opentofu/bin" >> $GITHUB_PATH
+
+      - name: Verify OpenTofu
+        run: tofu version
