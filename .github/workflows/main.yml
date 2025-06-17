@@ -20,13 +20,10 @@ jobs:
       - name: Verify Terraform installation
         run: terraform -version
 
-      - name: Install OpenTofu
+      - name: Install OpenTofu manually
         run: |
-          curl -s https://get.opentofu.org/install.sh | bash
-          echo "$HOME/.opentofu/bin" >> $GITHUB_PATH
-          echo "export PATH=$HOME/.opentofu/bin:\$PATH" >> $GITHUB_ENV
-
-      - name: Verify OpenTofu installation
-        run: |
-          export PATH=$HOME/.opentofu/bin:$PATH
+          TOFU_VERSION="1.6.2"  # change to latest if needed
+          curl -LO https://github.com/opentofu/opentofu/releases/download/v${TOFU_VERSION}/tofu_${TOFU_VERSION}_linux_amd64.zip
+          unzip tofu_${TOFU_VERSION}_linux_amd64.zip
+          sudo mv tofu /usr/local/bin/
           tofu version
