@@ -15,15 +15,18 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.7.5  # Change to the version you want
+          terraform_version: 1.7.5
 
-      - name: Verify Terraform
+      - name: Verify Terraform installation
         run: terraform -version
 
       - name: Install OpenTofu
         run: |
           curl -s https://get.opentofu.org/install.sh | bash
           echo "$HOME/.opentofu/bin" >> $GITHUB_PATH
+          echo "export PATH=$HOME/.opentofu/bin:\$PATH" >> $GITHUB_ENV
 
-      - name: Verify OpenTofu
-        run: tofu version
+      - name: Verify OpenTofu installation
+        run: |
+          export PATH=$HOME/.opentofu/bin:$PATH
+          tofu version
